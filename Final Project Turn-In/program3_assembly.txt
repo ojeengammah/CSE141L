@@ -1,0 +1,123 @@
+movi r3 0
+movr r5 r3      // r5 = aCount = 0
+movr r6 r3      // r6 = bCount = 0
+movi r3 32
+load r0 r3      // r0 = pat = mem[32]
+movi r3 3       
+shiftr r0 r3    // pat = pat >> 3
+movi r3 0
+movr r4 r3       // r4 = i = 0
+movi r3 33
+movr r7 r3
+startloop3:
+movi r3 0
+movr r2 r3       // r2 = seen = 0
+movr r3 r4
+load r1 r3      // r1 = byte = mem[i]
+movi r3 31
+and r1 r3       // byte = byte AND 31
+bne r1 r0 +3    // if (byte == pat)
+inc r5          //    aCount++
+movi r3 1
+movr r2 r3      //    seen = 1
+movr r3 r4
+load r1 r3      // r1 = byte = mem[i]
+movi r3 1
+shiftr r1 r3    // byte = byte >> 1
+movi r3 31
+and r1 r3       // byte = byte AND 31
+bne r1 r0 +3    // if (byte == pat)
+inc r5          //    aCount++
+movi r3 1
+movr r2 r3      //    seen = 1
+movr r3 r4
+load r1 r3      // r1 = byte = mem[i]
+movi r3 2
+shiftr r1 r3    // byte = byte >> 2
+movi r3 31
+and r1 r3       // byte = byte AND 31
+bne r1 r0 +3    // if (byte == pat)
+inc r5          //    aCount++
+movi r3 1
+movr r2 r3      //    seen = 1
+movr r3 r4
+load r1 r3      // r1 = byte = mem[i]
+movi r3 3
+shiftr r1 r3    // byte = byte >> 3
+movi r3 31
+and r1 r3       // byte = byte AND 31
+bne r1 r0 +3    // if (byte == pat)
+inc r5          //    aCount++
+movi r3 1
+movr r2 r3      //    seen = 1
+movi r3 1
+bne r2 r3 +2    // if (seen == 1)
+inc r6          //    bCount++
+noop
+inc r4          // i++
+movi r3 32
+movr r1 r3      
+movr r3 r4
+bne r3 r1 startloop3  // if i != 32 go to startloop3
+store r5 r7     // mem[33] = countA
+inc r7          
+store r6 r7     // mem[34] = countB
+inc r7
+movi r3 0
+movr r4 r3       // r4 = i = 0
+startloop4:
+movr r3 r4
+load r1 r3      // r1 = fByte = mem[i]
+inc r3
+load r2 r3      // r2 = sByte = mem[i + 1]
+movi r3 4
+shiftr r2 r3    // sByte = sByte >> 4
+shiftl r1 r3    // fByte = fByte << 4
+movi r3 16
+and r1 r3       // fByte = fByte AND 16
+or r2 r1        // sByte = fByte OR sByte
+bne r2 r0 +2    // if (fByte == pat)
+inc r5          //    aCount++
+noop
+movi r3 1
+shiftr r2 r3    // sByte = sByte >> 1
+movr r3 r4
+load r1 r3      // r1 = fByte = mem[i]
+movi r3 3
+shiftl r1 r3    // fByte = fByte << 3
+movi r3 16      
+and r1 r3       // fByte = fByte AND 16
+or r2 r1        // sByte = fByte OR sByte
+bne r2 r0 +2    // if (sByte == pat)
+inc r5          //    aCount++
+noop
+movi r3 1
+shiftr r2 r3    // sByte = sByte >> 1
+movr r3 r4
+load r1 r3      // r1 = fByte = mem[i+1]
+movi r3 2
+shiftl r1 r3    // fByte = fByte << 2
+movi r3 16      
+and r1 r3       // fByte = fByte AND 16
+or r2 r1        // sByte = fByte OR sByte
+bne r2 r0 +2    // if (sByte == pat)
+inc r5          //    aCount++
+noop
+movi r3 1
+shiftr r2 r3    // sByte = sByte >> 1
+movr r3 r4
+load r1 r3      // r1 = fByte = mem[i+1]
+movi r3 1
+shiftl r1 r3    // fByte = fByte << 1
+movi r3 16      
+and r1 r3       // fByte = fByte AND 16
+or r2 r1        // sByte = fByte OR sByte
+bne r2 r0 +2    // if (sByte == pat)
+inc r5          //    aCount++
+noop
+inc r4          // i++
+movi r3 31
+movr r2 r3
+movr r3 r4
+bne r2 r3 startloop4  // if i != 31 go to startloop4
+store r5 r7     // mem[35] = countA

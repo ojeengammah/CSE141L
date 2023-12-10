@@ -1,0 +1,154 @@
+movi r3 30
+movr r4 r3
+movi r3 0
+movr r7 r3
+startloop2:     
+movi r3 0
+movr r0 r3       // r0 = pbits = 0
+movr r3 r4      
+load r2 r3      // r2 = bh = mem[i]
+inc r3
+load r1 r3      // r1 = th = mem[i+1]
+par r1 r1       // th = ^(th)
+or r0 r1        // pbits = pbits OR th
+movi r3 1
+shiftl r0 r3     // pbits = pbits << 1
+movr r3 r4      
+load r2 r3      // r2 = bh = mem[i]
+inc r3
+load r1 r3      // r1 = th = mem[i+1]
+movi r3 240
+and r2 r3       // bh = bh AND 240
+and r1 r3       // th = th AND 240
+xor r1 r2       // th = th XOR bh
+par r1 r1       // th = ^(th)
+or r0 r1        // pbits = pbits OR th
+movi r3 1
+shiftl r0 r3     // pbits = pbits << 1
+movr r3 r4      
+load r2 r3      // r2 = bh = mem[i]
+inc r3
+load r1 r3      // r1 = th = mem[i+1]
+movi r3 204
+and r2 r3       // bh = bh AND 204
+and r1 r3       // th = th AND 204
+xor r1 r2       // th = th XOR bh
+par r1 r1       // th = ^(th)
+or r0 r1        // pbits = pbits OR th
+movi r3 1
+shiftl r0 r3     // pbits = pbits << 1
+movr r3 r4      
+load r2 r3      // r2 = bh = mem[i]
+inc r3
+load r1 r3      // r1 = th = mem[i+1]
+movi r3 170
+and r2 r3       // bh = bh AND 170
+and r1 r3       // th = th AND 170
+xor r1 r2       // th = th XOR bh
+par r1 r1       // th = ^(th)
+or r0 r1        // pbits = pbits OR th
+movi r3 1
+shiftl r0 r3     // pbits = pbits << 1
+movr r3 r4      
+load r2 r3      // r2 = bh = mem[i]
+inc r3
+load r1 r3      // r1 = th = mem[i+1]
+xor r1 r2       // th = th XOR bh
+par r1 r1       // th = ^(th)
+or r0 r1        // pbits = pbits XOR th
+store r0 r7     // push pbits on stack
+inc r7  
+movi r3 1  
+shiftr r0 r3    // r0 = ebits = pbits >> 1
+movr r1 r3      // r1 = temp = 1
+shiftl r1 r0    // temp = temp << (ebits)
+movi r3 0
+bne r1 r3 +15   // if (temp == 0)
+movi r3 247 
+and r0 r3       //    ebits = ebits AND 247
+movi r3 1
+movr r1 r3      //    temp = 1
+shiftl r1 r0    //    temp = temp<<(ebits)
+movr r3 r4
+inc r3
+load r2 r3      //    r2 = th = mem[i+1]
+xor r2 r1       //    th = th XOR temp
+movr r1 r2      //    r1 = th 
+load r2 r4      //    r2 = bh = mem[i]
+movi r3 0
+movr r0 r3
+movi r3 1
+bne r0 r3 +7    // else
+load r2 r4      //    r2 = bh = mem[i]
+xor r2 r1       //    r2 = r2 XOR r1
+movr r3 r4
+inc r3
+load r1 r3      //    r1 = th = mem[i+1]
+noop
+noop
+movr r5 r1      // r5 = th(saved)
+movr r6 r2      // r6 = bh(saved)
+dec r7
+load r0 r7      // r0 = pbits (pop from stack)
+movi r3 0
+movr r1 r3      // r1 = eCount = 0
+bne r0 r3 +15   // if (pbits == 0)
+load r2 r4      //    r2 = bh = mem[i]
+movr r3 r4
+inc r3
+load r1 r3      //    r1 = th = mem[i+1]
+movr r5 r1      //    r5 = th(saved)
+movr r6 r2      //    r6 = bh(saved)
+movi r3 0
+movr r1 r3      //    r1 = eCount = 0
+movi r3 1
+noop
+noop
+noop
+noop
+noop
+bne r1 r3 +7    // else
+inc r1          //    eCount++
+movi r3 1
+and r0 r3       //    pbits = pbits AND 1
+movi r3 0
+bne r0 r3 +2    //    if (pbits == 0)
+inc r1          //        eCount++
+noop
+movi r3 6
+shiftl r1 r3     // eCount = eCount << 6
+movr r2 r5      // r2 = th = th(saved)
+movi r3 5
+shiftr r2 r3    // th = th >> 5
+or r2 r1        // th = th OR eCont
+inc r7
+store r2 r7     // mem[i-29] = th
+dec r7
+movr r0 r6      // r0 = bh = bh(saved)
+movi r3 3
+shiftr r0 r3    // bh = bh >> 3
+movr r1 r0      // r1 = temp = bh
+movi r3 1
+and r0 r3       // bh = bh AND 1
+shiftr r1 r3    // temp = temp >> 1
+movi r3 14
+and r1 r3       // temp = temp AND 14
+or r0 r1        // bh = bh OR temp
+movr r2 r5      // r2 = th = th(saved)
+movi r3 3
+shiftl r2 r3    // th = th << 3
+movi r3 240
+and r2 r3       // th = th AND 240
+or r0 r2        // bh = bh OR th
+store r0 r7     // mem[i-30] = bh
+inc r7
+inc r7
+inc r4
+inc r4
+movi r3 60
+movr r2 r4
+bne r2 r3 startloop2 // if i != 60 go to startloop4
+
+
+
+

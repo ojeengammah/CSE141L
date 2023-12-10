@@ -1,0 +1,100 @@
+movi r3 0
+movr r4 r3       // r4 = i = 0
+movi r3 30
+movr r7 r3     
+startloop:      // while (i != 30):
+movi r3 0
+movr r0 r3       // r0 = pbits
+movr r3 r4
+load r2 r3      // r2 = bh = mem[i]
+inc r3
+load r1 r3      // r1 = th = mem[i+1]
+movi r3 240
+and r2 r3       // th = th AND 240
+xor r1 r2       // th = th XOR bh
+par r1 r1       // th = ^(th)
+or r0 r1        // pbits = pbits OR th
+movi r3 1
+movr r3 r4
+load r2 r3      // r2 = bh = mem[i]
+inc r3
+load r1 r3      // r1 = th = mem[i+1]
+movi r3 142
+and r2 r3       // bh = bh and 142
+xor r1 r2       // th = bh xor th
+par r1 r1       // th = ^(th)
+movi r3 4
+shiftl r1 r3    // th = th << 4
+or r0 r1        // pbits = pbits OR th
+movr r3 r4
+load r2 r3      // r2 = bh = mem[i]
+inc r3
+load r1 r3      // r1 = th = mem[i+1]
+movi r3 109
+and r2 r3       // bh = bh AND 109
+movi r3 6
+and r1 r3       // th = th AND 6
+xor r1 r2       // th = th XOR bh
+par r1 r1       // th = ^(th)
+movi r3 2
+shiftl r1 r3    // th = th << 2
+or r0 r1        // pbits = pbits OR th
+movr r3 r4
+load r2 r3      // r2 = bh = mem[i]
+inc r3
+load r1 r3      // r1 = th = mem[i+1]
+movi r3 91
+and r2 r3       // bh = bh AND 91
+movi r3 5
+and r1 r3       // th = th AND 5
+xor r1 r2       // th = th xor bh
+par r1 r1       // th = ^(th)
+movi r3 1
+shiftl r1 r3     // th = th << 1
+or r0 r1        // pbits = pbits OR th
+movr r3 r4
+load r2 r3      // r2 = bh = mem[i]
+inc r3
+load r1 r3      // r1 = th = mem[i+1]
+movi r3 5
+shiftl r1 r3    // th = th << 5
+or r1 r0        // th = th OR pbits
+movi r3 225
+and r1 r3      // th = th AND 225
+movi r3 4
+shiftr r2 r3    // bh = bh >> 4
+movi r3 1
+shiftl r2 r3    // bh = bh << 1
+or r1 r2        // th = th OR bh
+inc r7
+store r1 r7     // mem[30 + i + 1] = th
+movi r3 254
+and r0 r3       // pbits = pbits AND 254
+movr r3 r4
+load r2 r3      // bh = mem[i]
+movi r3 4
+shiftl r2 r3    // bh = bh << 4
+movr r1 r2      // r1 = temp = bh
+movi r3 3
+shiftl r1 r3    // temp = temp << 3
+inc r3
+shiftr r1 r3    // temp = temp >> 4
+movi r3 224
+and r2 r3       // bh = bh AND 224
+or r2 r1        // bh = bh OR temp
+or r2 r0        // bh = bh OR pbits
+load r1 r7      // r1 = th = mem[30+i+1]
+par r1 r1       // th = ^(th)
+par r0 r2       // r0 = temp = ^(bh)
+xor r0 r1       // temp = r0 XOR th
+or r2 r0        // bh = bh OR temp
+dec r7
+store r2 r7     // mem[30 + i] = botHalf
+inc r4          // i++
+inc r7          
+inc r4          // i++
+inc r7
+movi r3 30
+movr r2 r4
+bne r2 r3 startloop // if i != 30 go to startloop4
+ 

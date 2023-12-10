@@ -1,0 +1,150 @@
+110001001	// movi r3 30
+111100011	// movr r4 r3
+110000000	// movi r3 0
+111111011	// movr r7 r3
+001100000	// startloop2:
+110000000	// movi r3 0
+111000011	// movr r0 r3       // r0 = pbits = 0
+111011100	// movr r3 r4
+010010011	// load r2 r3      // r2 = bh = mem[i]
+000000011	// inc r3
+010001011	// load r1 r3      // r1 = th = mem[i+1]
+001110101	// par r1 r1       // th = ^(th)
+001000001	// or r0 r1        // pbits = pbits OR th
+110000001	// movi r3 1
+000010011	// shiftl r0 r3     // pbits = pbits << 1
+111011100	// movr r3 r4
+010010011	// load r2 r3      // r2 = bh = mem[i]
+000000011	// inc r3
+010001011	// load r1 r3      // r1 = th = mem[i+1]
+110010101	// movi r3 240
+000111011	// and r2 r3       // bh = bh AND 240
+000110111	// and r1 r3       // th = th AND 240
+001010110	// xor r1 r2       // th = th XOR bh
+001110101	// par r1 r1       // th = ^(th)
+001000001	// or r0 r1        // pbits = pbits OR th
+110000001	// movi r3 1
+000010011	// shiftl r0 r3     // pbits = pbits << 1
+111011100	// movr r3 r4
+010010011	// load r2 r3      // r2 = bh = mem[i]
+000000011	// inc r3
+010001011	// load r1 r3      // r1 = th = mem[i+1]
+110010010	// movi r3 204
+000111011	// and r2 r3       // bh = bh AND 204
+000110111	// and r1 r3       // th = th AND 204
+001010110	// xor r1 r2       // th = th XOR bh
+001110101	// par r1 r1       // th = ^(th)
+001000001	// or r0 r1        // pbits = pbits OR th
+110000001	// movi r3 1
+000010011	// shiftl r0 r3     // pbits = pbits << 1
+111011100	// movr r3 r4
+010010011	// load r2 r3      // r2 = bh = mem[i]
+000000011	// inc r3
+010001011	// load r1 r3      // r1 = th = mem[i+1]
+110010001	// movi r3 170
+000111011	// and r2 r3       // bh = bh AND 170
+000110111	// and r1 r3       // th = th AND 170
+001010110	// xor r1 r2       // th = th XOR bh
+001110101	// par r1 r1       // th = ^(th)
+001000001	// or r0 r1        // pbits = pbits OR th
+110000001	// movi r3 1
+000010011	// shiftl r0 r3     // pbits = pbits << 1
+111011100	// movr r3 r4
+010010011	// load r2 r3      // r2 = bh = mem[i]
+000000011	// inc r3
+010001011	// load r1 r3      // r1 = th = mem[i+1]
+001010110	// xor r1 r2       // th = th XOR bh
+001110101	// par r1 r1       // th = ^(th)
+001000001	// or r0 r1        // pbits = pbits XOR th
+011000111	// store r0 r7     // push pbits on stack
+000000111	// inc r7
+110000001	// movi r3 1
+000100011	// shiftr r0 r3    // r0 = ebits = pbits >> 1
+111001011	// movr r1 r3      // r1 = temp = 1
+000010100	// shiftl r1 r0    // temp = temp << (ebits)
+110000000	// movi r3 0
+100110111	// bne r1 r3 +15   // if (temp == 0)
+110010110	// movi r3 247
+000110011	// and r0 r3       //    ebits = ebits AND 247
+110000001	// movi r3 1
+111001011	// movr r1 r3      //    temp = 1
+000010100	// shiftl r1 r0    //    temp = temp<<(ebits)
+111011100	// movr r3 r4
+000000011	// inc r3
+010010011	// load r2 r3      //    r2 = th = mem[i+1]
+001011001	// xor r2 r1       //    th = th XOR temp
+111001010	// movr r1 r2      //    r1 = th
+010010100	// load r2 r4      //    r2 = bh = mem[i]
+110000000	// movi r3 0
+111000011	// movr r0 r3
+110000001	// movi r3 1
+100100011	// bne r0 r3 +7    // else
+010010100	// load r2 r4      //    r2 = bh = mem[i]
+001011001	// xor r2 r1       //    r2 = r2 XOR r1
+111011100	// movr r3 r4
+000000011	// inc r3
+010001011	// load r1 r3      //    r1 = th = mem[i+1]
+001100000	// noop
+001100000	// noop
+111101001	// movr r5 r1      // r5 = th(saved)
+111110010	// movr r6 r2      // r6 = bh(saved)
+000001111	// dec r7
+010000111	// load r0 r7      // r0 = pbits (pop from stack)
+110000000	// movi r3 0
+111001011	// movr r1 r3      // r1 = eCount = 0
+100110011	// bne r0 r3 +15   // if (pbits == 0)
+010010100	// load r2 r4      //    r2 = bh = mem[i]
+111011100	// movr r3 r4
+000000011	// inc r3
+010001011	// load r1 r3      //    r1 = th = mem[i+1]
+111101001	// movr r5 r1      //    r5 = th(saved)
+111110010	// movr r6 r2      //    r6 = bh(saved)
+110000000	// movi r3 0
+111001011	// movr r1 r3      //    r1 = eCount = 0
+110000001	// movi r3 1
+001100000	// noop
+001100000	// noop
+001100000	// noop
+001100000	// noop
+001100000	// noop
+100100111	// bne r1 r3 +7    // else
+000000001	// inc r1          //    eCount++
+110000001	// movi r3 1
+000110011	// and r0 r3       //    pbits = pbits AND 1
+110000000	// movi r3 0
+100000011	// bne r0 r3 +2    //    if (pbits == 0)
+000000001	// inc r1          //        eCount++
+001100000	// noop
+110000110	// movi r3 6
+000010111	// shiftl r1 r3     // eCount = eCount << 6
+111010101	// movr r2 r5      // r2 = th = th(saved)
+110000101	// movi r3 5
+000101011	// shiftr r2 r3    // th = th >> 5
+001001001	// or r2 r1        // th = th OR eCont
+000000111	// inc r7
+011010111	// store r2 r7     // mem[i-29] = th
+000001111	// dec r7
+111000110	// movr r0 r6      // r0 = bh = bh(saved)
+110000011	// movi r3 3
+000100011	// shiftr r0 r3    // bh = bh >> 3
+111001000	// movr r1 r0      // r1 = temp = bh
+110000001	// movi r3 1
+000110011	// and r0 r3       // bh = bh AND 1
+000100111	// shiftr r1 r3    // temp = temp >> 1
+110000111	// movi r3 14
+000110111	// and r1 r3       // temp = temp AND 14
+001000001	// or r0 r1        // bh = bh OR temp
+111010101	// movr r2 r5      // r2 = th = th(saved)
+110000011	// movi r3 3
+000011011	// shiftl r2 r3    // th = th << 3
+110010101	// movi r3 240
+000111011	// and r2 r3       // th = th AND 240
+001000010	// or r0 r2        // bh = bh OR th
+011000111	// store r0 r7     // mem[i-30] = bh
+000000111	// inc r7
+000000111	// inc r7
+000000100	// inc r4
+000000100	// inc r4
+110001101	// movi r3 60
+111010100	// movr r2 r4
+101011011	// bne r2 r3 startloop2 // if i != 60 go to startloop4
